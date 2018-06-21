@@ -1,0 +1,40 @@
+<ol class="am-breadcrumb">
+    <span ng-bind="words.current"></span>
+    <li><a ui-sref='home.homeIndex' ng-bind="words.home" ng-click="goIndex()"></a></li>
+    <li class="am-active" ng-bind="words.log.log" ng-click="reload($event)"></li>
+</ol>
+<div class="tpl-content-wrapper">
+    <div id="addTax" class="tpl-content-page-title">
+        <b ng-bind="words.log.log" class="left big-title"></b>
+    </div>
+    <div class="am-u-md-12" id="formalInfoList">
+        <div>
+            <input type="text" ng-model="filter.operaterName" placeholder="请输入操作人" class="pl-50 mr20" autocomplete="off">
+            <input class="time select mr20" id="startTime" ng-focus="" type="text" onClick="WdatePicker({el:this,dateFmt:'yyyy-MM-dd',isShowClear:true,readonly:true})" placeholder="请选择所属期" autocomplete="off">
+            <button ng-click="filter.search()" class="am-btn am-btn-primary searchBtn mr20">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
+            <button ng-click="filter.reset()" class="am-btn am-btn-primary searchBtn">重&nbsp;&nbsp;&nbsp;&nbsp;置</button>
+        </div>
+        <table class="am-table am-table-bd am-table-striped admin-content-table tac">
+            <thead>
+                <tr>
+                    <th class="w-20" ng-bind="words.log.time"></th>
+                    <th ng-bind="words.log.opeNum" class="w-15"></th>
+                    <th ng-bind="words.log.ope" class="w-15"></th>
+                    <th ng-bind="words.log.operation" class="w-30"></th>
+                    <th ng-bind="words.log.IP" class="w-20"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="(k,v) in logList">
+                    <td ng-bind="v.operateTime"></td>
+                    <td ng-bind="v.executorCode"></td>
+                    <td ng-bind="v.name"></td>
+                    <td ng-bind="v.description"></td>
+                    <td ng-bind="v.loginIp"></td>
+                </tr>
+            </tbody>
+        </table>
+        <tm-pagination conf="paginationConf" class="right"></tm-pagination>
+    </div>
+    <input type="file" id="fileUpload" onChange="angular.element(this).scope().photoCheck(this);">
+</div>

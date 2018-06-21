@@ -1,0 +1,131 @@
+<ol class="am-breadcrumb">
+    <span ng-bind="words.current"></span>
+    <li><a ui-sref='home.homeIndex' ng-bind="words.home" ng-click="goIndex()"></a></li>
+    <li class="am-active" ng-bind="words.formalInfo.formalInfo" ng-click="reload($event)"></li>
+</ol>
+<div class="tpl-content-wrapper">
+    <div id="addTax" class="tpl-content-page-title">
+        <b ng-bind="words.formalInfo.formalInfo" class="left big-title"></b>
+    </div>
+    <div class="am-u-md-12" id="formalInfoList">
+        <div>
+            <span ng-bind="words.formalInterview.caseName"></span><span class="pr-1">:</span><input type="text" ng-model="filter.caseName" placeholder="请输入约谈名称" class="pl-50">
+            <span class="pl-2" ng-bind="words.formalInterview.payerCode"></span><span class="pr-1">:</span><input type="text" ng-model="filter.payerCode" placeholder="请输入纳税人识别号" class="pl-50">
+            <span class="pl-2" ng-bind="words.formalInterview.permis"></span><span class="pr-1">:</span>
+            <select name="" id="orgCode" ng-model="filter.orgCode" style="color:#999;padding-right:2rem" onchange="angular.element(this).scope().color()" class="select">
+                <option value="" style="color:#000">请选择应对机构</option>
+                <option value="{{v.orgCode}}" ng-repeat="(k,v) in permisList" style="color:#000">{{v.orgRemark}}</option>
+            </select>
+        </div>
+        <div>
+            <span ng-bind="words.formalInterview.dateTime"></span><span class="pr-px-7">:</span>
+            <input class="time select" id="startTime" ng-focus="" type="text" onClick="WdatePicker({el:this,dateFmt:'yyyy-MM-dd',isShowClear:true,readonly:true})" placeholder="请选择所属期">
+            &nbsp;-&nbsp;
+            <input class="time select" id="endTime" ng-focus="" type="text" onClick="WdatePicker({el:this,dateFmt:'yyyy-MM-dd',isShowClear:true,readonly:true})" placeholder="请选择所属期">
+            <button ng-click="filter.search()" class="right am-btn am-btn-primary searchBtn">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
+        </div>
+        <table class="am-table am-table-bd am-table-striped admin-content-table tac">
+            <thead>
+                <tr>
+                    <th class="w-20"><span ng-bind="words.formalInterview.permis" class="org_1 inline-block"></span></th>
+                    <th ng-bind="words.formalInterview.caseTime" class="w-25"></th>
+                    <th ng-bind="words.formalInterview.beginDate" class="w-20"></th>
+                    <th ng-bind="words.formalInterview.taxpayer" class="w-15"></th>
+                    <th ng-bind="words.formalInterview.payer" class="w-10"></th>
+                    <th ng-bind="words.formalInterview.operation" class="w-10"></th>
+                </tr>
+            </thead>
+        </table>
+        <div class="w-100 load" id="load" ng-if="paginationConf.show"></div>
+        <div ng-repeat="(k,v) in interviewList" class="caseNameContainer">
+            <div class="w-100 caseName">
+                <span ng-bind="words.formalInterview.caseName"></span><span>:</span><span ng-bind="v.caseName"></span>
+            </div>
+            <div class="w-100 caseName">
+                <div class="left">
+                    <span ng-bind="words.formalInterview.payerCode"></span><span>:</span><span ng-bind="v.payerCode"></span>
+                </div>
+                <div class="left">
+                    <span ng-bind="words.formalInterview.dateTime"></span><span>:</span>
+                    <span ng-bind="v.beginDate"></span><span>--</span>
+                    <span ng-bind="v.endDate"></span>
+                </div>
+            </div>
+        <table class="table am-table am-table-bd am-table-striped admin-content-table tac">
+            <tbody>
+                <tr ng-repeat="(k1,v1) in v.modelList">
+                    <td class="w-20">
+                        <span ng-bind="v1.orgStr" class="ellipsis org_1 m-0-5" ng-mouseenter="siblingsShow($event,v1.orgStr)" ng-mouseleave="siblingsHide($event)"></span>
+                    </td>
+                    <td ng-bind="v1.interviewDate" class="w-25"></td>
+                    <td ng-bind="v1.beginDate" class="w-20"></td>
+                    <td class="w-15 mh-91 over-hidden">
+                        <div class="mh-75 over-hidden m-0-5" ng-mouseenter="siblingsShow_1($event,v1.taxpayer)" ng-mouseleave="siblingsHide($event)">
+                            <span ng-repeat="(k2,v2) in v1.taxpayer" ng-bind="v2.executorType_cn" class="show comp"></span>
+                        </div>
+                    </td>
+                    <td class="w-10 mh-91 over-hidden">
+                        <div class="mh-75 over-hidden m-0-5" ng-mouseenter="siblingsShow_1($event,v1.payer)" ng-mouseleave="siblingsHide($event)">
+                            <span ng-repeat="(k3,v3) in v1.payer" ng-bind="v3.arrangeName" class="show comp"></span>
+                        </div>
+                    </td>
+                    <td class="w-10">
+                        <div ng-repeat="(k4,v4) in v1.operation">
+                            <a href="" ng-bind="v5.word" ng-click="operate($event,v5.word,v5.type,v1.meetingId)" ng-repeat="(k5,v5) in v4" ng-if="v4.length>1" style="font-size: 1rem"></a>
+                            <a href="" ng-bind="v4.word" ng-click="operate($event,v4.word,v4.type,v1.meetingId)" ng-if="v4.word"></a>
+                            <input type="file" accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.wordprocessingml.template,application/vnd.ms-works,application/msword" onChange="angular.element(this).scope().photoCheck(this);" style="display: none">
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        <tm-pagination conf="paginationConf" class="right"></tm-pagination>
+    </div>
+    <input type="file" id="fileUpload" onChange="angular.element(this).scope().photoCheck(this);">
+    <div class="pop_box_max" ng-if="operation.vedio||operation.doc||operation.data">
+        <div class="pop_box" id="viewFile">
+            <h3 ng-bind="words.formalInfo.showVedio" ng-if="operation.vedio"></h3>
+            <h3 ng-bind="words.formalInfo.showDoc" ng-if="operation.doc"></h3>
+            <h3 ng-bind="words.formalInfo.showData" ng-if="operation.data"></h3>
+            <i class="am-icon-close i-close" ng-click="init
+            ()" style="z-index:1000;"></i>
+            <div class="relative">
+                <div style="width:17px;height:270px;background: #fff;position:absolute;right:0"></div>
+                <div class="tac mh-270 scroll-y" style="border-bottom: 1px solid #ddd">
+                    <table id="fileTable" calss="t-ali-l">
+                        <thead>
+                            <tr>
+                                <th class="w-50" style="text-align: left !important">
+                                    <input type="checkBox" ng-click="selAll($event)"><span style="margin-left:.5rem;" ng-bind="words.formalInfo.fileName"></span>
+                                </th>
+                                <th class="w-20" style="text-align: left !important">
+                                    <span ng-bind="words.formalInfo.size"></span>
+                                </th>
+                                <th class="w-30" style="text-align: left !important">
+                                    <span ng-bind="words.formalInfo.uploadDate"></span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="(k,v) in fileList">
+                                <td>
+                                    <input type="checkBox" ng-click="sel($event,v.fileName)" value="{{v.fileName}}"" style="vertical-align: text-top;"><span title="{{v.fileName}}" ng-bind="v.fileName" style="margin-left:.5rem;max-width:17rem;display:inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;vertical-align: middle"></span>
+                                </td>
+                                <td>
+                                    <span ng-bind="v.fileSize_cn"></span>
+                                </td>
+                                <td>
+                                    <span ng-bind="v.uploadTime_cn"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tac" id="button_container">
+                    <button class="am-btn am-btn-primary" ng-bind="words.common.downLoad" ng-click="downLoad()" ng-disabled="errTip.disabled"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

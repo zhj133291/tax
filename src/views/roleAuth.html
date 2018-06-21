@@ -1,0 +1,96 @@
+<ol class="am-breadcrumb">
+    <span ng-bind="words.current"></span>
+    <li><a ui-sref='home.homeIndex' ng-bind="words.home" ng-click="goIndex()"></a></li>
+    <li class="am-active" ng-bind="words.roleAuth.roleAuth" ng-click="reload($event)"></li>
+</ol>
+<div class="tpl-content-wrapper">
+    <div class="tpl-content-page-title">
+        <b class="left big-title" ng-bind="words.roleAuth.roleAuth"></b>
+        <button class="am-btn am-btn-primary right" ng-click="addRole()" ng-bind="words.roleAuth.addRole"></button>
+    </div>
+    <div class="am-g">
+        <div class="am-u-sm-12" id="roleTableContainer">
+          <table class="am-table am-table-bd am-table-striped admin-content-table" id="roleTable">
+            <thead>
+            <tr>
+              <th ng-bind="words.roleAuth.roleName_th"></th><th ng-bind="words.operate"></th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="(k,v) in role">
+                  <td ng-bind="v.roleName"></td>
+                  <td>
+                      <ul id="operation">
+                        <li class="left"><a ng-click="editRole(v.roleId)" ng-bind="words.roleAuth.edit"></a></li>
+                        <li class="left"><a ng-click="deleteRole(v.roleId)" ng-bind="words.roleAuth.delete"></a></li>
+                        <li class="left"><a ng-click="configRole(v.roleId)" ng-bind="words.roleAuth.config"></a></li>
+                      </ul>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+    <div class="pop_box_max" ng-if="operation.add || operation.edit || operation.config">
+        <div class="pop_box" id="roleConfig">
+            <i class="am-icon-close" ng-click="init
+            ()"></i>
+            <h3 ng-bind="words.roleAuth.addRole" ng-if="operation.add && step.one"></h3>
+            <h3 ng-bind="words.roleAuth.editRole" ng-if="operation.edit"></h3>
+            <h3 ng-bind="words.roleAuth.config_role" ng-if="operation.add && step.two"></h3>
+            <h3 ng-bind="words.roleAuth.config_role" ng-if="operation.config"></h3>
+            <div>
+                <div class="tac" id="role">
+                    <p class="pop_next" ng-if="operation.delete" ng-bind="words.roleAuth.sureDelete"></p>
+                    <div ng-if="step.one && operation.add">
+                        <label for="roleName" ng-bind="words.roleAuth.roleName"></label><input id="roleName" class="border-aaa" type="text" name="roleName" ng-model="addRoleData.roleName" placeholder="{{words.roleAuth.enterRoleName}}" ng-blur="roleName.add.blur()" ng-focus="roleName.add.focus()">
+                    </div>
+                    <div ng-if="roleName.addErr" class="red w-91">
+                        <span>*</span><span ng-bind="words.roleAuth.roleNameErr"></span>
+                    </div>
+                    <div ng-if="operation.edit">
+                        <label for="roleName" ng-bind="words.roleAuth.roleName"></label><input id="roleName" class="border-aaa" type="text" name="roleName" ng-model="editRoleData.roleName" placeholder="{{words.roleAuth.enterRoleName}}" ng-blur="roleName.edit.blur()" ng-focus="roleName.edit.focus()">
+                    </div>
+                    <div ng-if="roleName.editErr" class="red w-91">
+                        <span>*</span><span ng-bind="words.roleAuth.roleNameErr"></span>
+                    </div>
+                    <div ng-if="step.two && operation.add">
+                        <ul id="menu_config">
+                            <li ng-repeat="(k,v) in roleMenu"><input type="checkBox" value="{{v.menuId}}"><span ng-bind="v.menuName"></span></li>
+                        </ul>
+                    </div>
+                    <div ng-if="operation.config">
+                        <ul id="menu_config">
+                            <li ng-repeat="(k,v) in roleMenu"><input type="checkBox" value="{{v.menuId}}"><span ng-bind="v.menuName"></span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="margin_tb12 tac" ng-if="operation.add" id="button_container">
+                    <button class="am-btn am-btn-primary btn_half" ng-bind="words.roleAuth.next" ng-click="stepNext()" ng-if="step.one"></button>
+                    <button class="am-btn am-btn-primary btn_half" ng-bind="words.roleAuth.prew" ng-click="stepPrew()" ng-if="step.two"></button>
+                    <span></span>
+                    <button class="am-btn am-btn-primary btn_half" ng-bind="words.roleAuth.down" ng-click="confirm()" ng-if="step.two" ng-disabled="errTip.disabled"></button>
+                </div>
+                <div class="margin_tb12 tac" ng-if="operation.edit || operation.config" id="button_container">
+                    <button class="am-btn am-btn-primary btn_full" ng-bind="words.roleAuth.down" ng-click="confirm()" ng-disabled="errTip.disabled"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pop_box_max" ng-if="operation.delete">
+        <div class="pop_box" id="roleConfig_1">
+            <i class="am-icon-close" ng-click="init
+            ()"></i>
+            <h3 ng-bind="words.roleAuth.deleteRole" ng-if="operation.delete"></h3>
+            <div>
+                <div class="tac" id="role">
+                    <p class="pop_next" ng-if="operation.delete" ng-bind="words.roleAuth.sureDelete"></p>
+                </div>
+                <div class="margin_tb12 tac" ng-if="operation.delete" id="button_container">
+                    <button class="am-btn am-btn-primary mr-rem-2" ng-bind="words.sure" ng-click="confirm()" ng-disabled="errTip.disabled"></button>
+                    <button class="am-btn am-btn-primary" ng-bind="words.cancel" ng-click="init()"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

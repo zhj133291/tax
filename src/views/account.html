@@ -1,0 +1,140 @@
+<ol class="am-breadcrumb">
+    <span ng-bind="words.current"></span>
+    <li><a ui-sref='home.homeIndex' ng-bind="words.home" ng-click="goIndex()"></a></li>
+    <li class="am-active" ng-bind="words.account.account" ng-click="reload($event)"></li>
+</ol>
+<div class="tpl-content-wrapper" id="accountInfo">
+    <div class="portlet-title mb-1">
+        <div class="caption color-666 bold big-title" ng-bind="words.account.info"></div>
+    </div>
+    <div class="tpl-portlet-components">
+        <div class="tpl-block">
+            <div class="am-g tpl-amazeui-form">
+                <div class="am-u-sm-12 am-u-md-9">
+                    <form class="am-form am-form-horizontal">
+                        <div class="am-form-group">
+                            <label class="am-u-sm-3 am-form-label t-ali-l" ng-bind="words.account.name" ng-if="userInfo.executorUser.loginName!='admin'"></label>
+                            <div class="am-u-sm-9" style="padding-top: .6em;" ng-bind="userInfo.executorUser.name" ng-if="userInfo.executorUser.loginName!='admin'"></div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label class="am-u-sm-3 am-form-label t-ali-l" ng-bind="words.account.code" ng-if="userInfo.executorUser.loginName!='admin'"></label>
+                            <div class="am-u-sm-9" style="padding-top: .6em;" ng-bind="userInfo.executorUser.executorCode" ng-if="userInfo.executorUser.loginName!='admin'"></div>
+                        </div>
+                        <div class="am-form-group">
+                            <label class="am-u-sm-3 am-form-label t-ali-l" ng-bind="words.account.loginName"></label>
+                            <div class="am-u-sm-9" style="padding-top: .6em;" ng-bind="userInfo.executorUser.loginName"></div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label class="am-u-sm-3 am-form-label t-ali-l" ng-bind="words.account.role"></label>
+                            <div class="am-u-sm-9" style="padding-top: .6em;" ng-bind="userInfo.roleName"></div>
+                        </div>
+                        <div class="am-form-group">
+                            <label class="am-u-sm-3 am-form-label t-ali-l" ng-bind="words.account.theMech" ng-if="userInfo.executorUser.loginName!='admin'"></label>
+                            <div class="am-u-sm-9" style="padding-top: .6em;" ng-bind="userInfo.orgName" ng-if="userInfo.executorUser.loginName!='admin'"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="portlet-title mb-1">
+        <div class="caption color-666 bold big-title" ng-bind="words.account.safe"></div>
+    </div>
+    <div class="tpl-portlet-components">
+        <div class="tpl-block">
+            <div class="am-g tpl-amazeui-form">
+                <div class="am-u-sm-12 am-u-md-12">
+                    <form class="am-form am-form-horizontal">
+                        <div class="am-form-group">
+                            <label class="am-u-sm-3 am-form-label t-ali-l" ng-bind="words.account.loginPwd" ng-bind="words.account.loginPwd"></label>
+                            <div class="am-u-sm-9 tpl-color-success cursor-pointer resetPwdA" style="padding-top: .6em; text-align: right;" ng-click="modifyPwd()"><span>修改&nbsp;></span></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pop_box_max" ng-if="modify">
+        <div class="pop_box" id="modifyPwd">
+            <h1 class="t-ali-l" ng-bind="words.account.modifyPwd"></h1>
+            <i class="am-icon-close" ng-click="init
+            ()" style="z-index:1000;color:#000"></i>
+            <div>
+                <div class="margin_tb12 tac">
+                    <div class="w-80">
+                        <div class="t-ali-r left w-30 pr-1">
+                            <span ng-bind="words.account.oldPwd"></span>
+                        </div>
+                        <div class="t-ali-l left w-70">
+                            <input type="password" ng-model="pwd.old" ng-focus="pwdVi.oldVi.focus()" ng-blur="pwdVi.oldVi.blur()" placeholder="{{words.account.old}}" class="accountPwd">
+                        </div>
+                    </div>
+                    <div class="w-80 loginTip">
+                        <div class="t-ali-r left w-30 pr-1 mh-1">
+                        </div>
+                        <div class="t-ali-l left w-70">
+                            <span class="red inline-block w-250 t-ali-l" ng-bind="words.account.oldErr" ng-if="pwdVi.old"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="margin_tb12 tac">
+                    <div class="w-80">
+                        <div class="t-ali-r left w-30 pr-1">
+                            <span ng-bind="words.account.newPwd"></span>
+                        </div>
+                        <div class="t-ali-l left w-70">
+                            <input type="password" ng-model="pwd.new" ng-focus="pwdVi.newVi.focus()" ng-blur="pwdVi.newVi.blur()" placeholder="{{words.account.new}}" class="accountPwd">
+                        </div>
+                    </div>
+                    <div class="w-80 loginTip">
+                        <div class="t-ali-r left w-30 pr-1 mh-1">
+                        </div>
+                        <div class="t-ali-l left w-70">
+                            <span class="red inline-block w-250 t-ali-l" ng-bind="words.account.newErr" ng-if="pwdVi.new"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="margin_tb12 tac">
+                    <div class="w-80">
+                        <div class="t-ali-r left w-30 pr-1">
+                            <span ng-bind="words.account.againPwd"></span>
+                        </div>
+                        <div class="t-ali-l left w-70">
+                            <input type="password" ng-model="pwd.again" ng-focus="pwdVi.againVi.focus()" ng-blur="pwdVi.againVi.blur()" placeholder="{{words.account.again}}" class="accountPwd">
+                        </div>
+                    </div>
+                    <div class="w-80 loginTip">
+                        <div class="t-ali-r left w-30 pr-1 mh-1">
+                        </div>
+                        <div class="t-ali-l left w-70">
+                            <span class="red inline-block w-250 t-ali-l" ng-bind="words.account.againErr" ng-if="pwdVi.again"></span><span class="red" ng-bind="words.account.againErr_1" ng-if="pwdVi.again_1"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="margin_tb12 tac" id="button_container">
+                    <button class="am-btn am-btn-primary btn_full" ng-bind="words.account.commit" ng-click="submit()" ng-disabled="errTip.disabled"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--修改成功-->
+    <div class="pop_box_max" ng-if="editSuc">
+        <div class="pop_box" id="modifyPwdSuc">
+            <h1 class="t-ali-l" ng-bind="words.account.modifyPwd"></h1>
+            <i class="am-icon-close" ng-click="init
+            ()" style="z-index:1000;color:#000"></i>
+            <div>
+                <div class="margin_tb12 tac">
+                    <span ng-bind="words.setPwdSuc"></span>
+                </div>
+                <div class="margin_tb12 tac" id="button_container">
+                    <button class="am-btn am-btn-primary btn_full" ng-bind="words.toLogin" ng-click="goLogin()" ng-disabled="errTip.disabled"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

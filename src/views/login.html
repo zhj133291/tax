@@ -1,0 +1,46 @@
+<div class="am-g myapp-login">
+        <div class="myapp-login-logo-block  tpl-login-max pt-6">
+            <div class="myapp-login-logo-text">
+                <img src="./lib/img/back.png" alt="" width="80%">
+            </div>
+            <div class="am-u-sm-10 login-am-center">
+                <div class="login_container tac relative">
+                    <div class="w-70 t-ali-l">
+                        <h2 ng-bind="words.loginByAccount" class="logH2"></h2>
+                    </div>
+                    <div class="w-70 t-ali-l">
+                        <b ng-bind="words.accountNumber"></b>
+                        <input class="login_input" type="text" ng-model="user.name" placeholder="请输入登录账号" ng-focus="user.nameVili.focus()" ng-blur="user.nameVili.blur()">
+                    </div>
+                    <div class="w-70 t-ali-l">
+                        <b ng-bind="words.passWord"></b>
+                        <input class="login_input" type="password" ng-model="user.pwd" placeholder="请输入登录密码" ng-focus="user.pwdVili.focus()" ng-blur="user.pwdVili.blur()">
+                    </div>
+                    <div class="w-70 t-ali-l">
+                        <b ng-bind="words.num"></b>
+                        <input type="text" ng-model="user.num" placeholder="请输入验证码" class="num" ng-focus="user.numVili.focus()" ng-blur="user.numVili.blur()"><img width="100" height="40" src="{{img.imgUrl}}" ng-click="getImg()"/>
+                    </div>
+                    <div class="loginTip w-70 t-ali-l" ng-if="user.nameErr">
+                        <span class="red">*</span>
+                        <span class="red w-40" ng-bind="user.nameTip"></span>
+                    </div>
+                    <div class="loginTip w-70 t-ali-l" ng-if="user.pwdErr">
+                        <span class="red">*</span>
+                        <span class="red w-40" ng-bind="user.pwdTip"></span>
+                    </div>
+                    <div class="loginTip w-70 t-ali-l" ng-if="user.numErr">
+                        <span class="red">*</span>
+                        <span class="red w-40" ng-bind="user.numTip"></span>
+                    </div>
+                    <div class="loginTip w-70 t-ali-l" ng-if="xhr.show">
+                        <span class="red">*</span>
+                        <span class="red w-30 t-ali-l inline_block" ng-bind="xhr.tip"></span>
+                    </div>
+                    <div class="w-50 absolute login_btn">
+                        <button ng-click="login()"; type="submit" class="am-btn am-btn-default .652-6" ng-disabled="errTip.disabled">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- </div> -->
+</div>

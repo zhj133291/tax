@@ -1,0 +1,273 @@
+<ol class="am-breadcrumb">
+    <span ng-bind="words.current"></span>
+    <li><a ui-sref='home.homeIndex' ng-bind="words.home" ng-click="goIndex()"></a></li>
+    <li class="am-active" ng-bind="words.taxpayer.taxInfo" ng-click="reload($event)"></li>
+</ol>
+<div class="tpl-content-wrapper">
+    <div class="am-g over-hidden">
+        <div class="am-u-lg-4 am-u-md-6" id="orgContainer">
+            <h3 ng-bind="words.organization.ori" class="big-title"></h3>
+            <div style="position:relative;height:700px;overflow: hidden">
+                <div style="width:17px;height:700px;position:absolute;right:0;background: #fff;"></div>
+                <div class="h-700">
+                </div>
+            </div>
+        </div>
+
+        <div class="am-u-lg-8 am-u-md-6 orgRight">
+            <h3 ng-bind="words.taxpayer.taxMsg" class="big-title left"></h3>
+            <button ng-bind="words.taxpayer.importTax" class="am-btn am-btn-primary right mr-rem-2" ng-click="import()"></button>
+            <input type="file" id="import" style="display: none" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" onchange="angular.element(this).scope().photoCheck_1(this)">
+            <div style="position:relative;height:700px;margin-top:47px">
+                <div style="width:17px;height:700px;position:absolute;right:0;background: #fff;"></div>
+            <div class="h-700">
+                <div class="w-100 h-100 tac color-777" id="userInfo" ng-if="operation.edit||operation.add">
+                    <div class="w-80">
+                        <div class="left w-30 tac">
+                            <span class="red">*</span><span ng-bind="words.common.theMech"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <span ng-bind="user.orgRemark"></span>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 tac">
+                            <span class="red">*</span><span ng-bind="words.taxpayer.taxpayerCode"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <input ng-focus="tip.payerCode.focus()" ng-blur="tip.payerCode.blur()" type="text" ng-disabled="operation.edit" ng-model="user.payerCode" placeholder="{{words.taxpayer.payerCodeLimit}}">
+                        </div>
+                        <div class="left w-30 tac mh-1" ng-if="tip.tipShow.payerCode||tip.tipShow.ex">
+                        </div>
+                        <div class="left w-70 t-ali-l" ng-if="tip.tipShow.payerCode||tip.tipShow.ex">
+                            <span class="red">*</span><span class="red" ng-bind="words.taxpayer.payerCodeErr" ng-if="tip.tipShow.payerCode"></span><span class="red" ng-bind="words.taxpayer.exErr" ng-if="tip.tipShow.ex"></span>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 tac">
+                            <span class="red">*</span><span ng-bind="words.taxpayer.taxpayerName"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <input ng-focus="tip.payerName.focus()" ng-blur="tip.payerName.blur()" type="text" ng-model="user.payerName" placeholder="{{words.taxpayer.payerNameLimit}}">
+                        </div>
+                        <div class="left w-30 tac mh-1" ng-if="tip.tipShow.payerName">
+                        </div>
+                        <div class="left w-70 t-ali-l" ng-if="tip.tipShow.payerName">
+                            <span class="red">*</span><span class="red" ng-bind="words.taxpayer.payerNameErr"></span>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 tac">
+                            <span class="red">*</span><span ng-bind="words.taxpayer.artificialName"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <input ng-focus="tip.artificialName.focus()" ng-blur="tip.artificialName.blur()" type="text" ng-model="user.artificialName" placeholder="{{words.taxpayer.artNameLimit}}">
+                        </div>
+                        <div class="left w-30 tac mh-1" ng-if="tip.tipShow.artificialName">
+                        </div>
+                        <div class="left w-70 t-ali-l" ng-if="tip.tipShow.artificialName">
+                            <span class="red">*</span><span class="red" ng-bind="words.taxpayer.artificialNameErr"></span>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 tac">
+                            <span class="red">*</span><span ng-bind="words.taxpayer.artificialId"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <input ng-focus="tip.artificialId.focus()" ng-blur="tip.artificialId.blur()" type="text" ng-model="user.artificialId" placeholder="{{words.taxpayer.artIdLimit}}">
+                        </div>
+                        <div class="left w-30 tac mh-1" ng-if="tip.tipShow.artificialId">
+                        </div>
+                        <div class="left w-70 t-ali-l" ng-if="tip.tipShow.artificialId">
+                            <span class="red">*</span><span class="red" ng-bind="words.taxpayer.artificialIdErr"></span>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 tac">
+                            <span class="red">*</span><span ng-bind="words.taxpayer.artificial"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <div class="left file-img" ng-click="arrClick('art')"></div>
+                            <div class="left hide">
+                                <input type="file" name="artificial" class="artificial file-img" accept="image/*" onchange="angular.element(this).scope().photoCheck(this,'artificial');" id="art">
+                            </div>
+                            <div class="left ml-2 relative photo" ng-repeat="(k,v) in user.artPhotoList" ng-if="user.artPhotoList.length>0"><img src="{{v.path}}" alt="" width="90" height="90"><i class="am-icon-close-1" ng-click="deletePic($event,v,'artificial')" style="z-index:1000;color:#000"></i></div>
+                        </div>
+                        <div class="left w-30 tac">
+                            <span>&nbsp;</span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <span ng-bind="words.taxpayer.imageTip"></span>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 tac">
+                            <span class="red">*</span><span ng-bind="words.taxpayer.artificialPhone"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <input ng-focus="tip.artificialPhone.focus()" ng-blur="tip.artificialPhone.blur()" type="text" ng-model="user.artificialPhone" placeholder="{{words.taxpayer.artPhoneLimit}}">
+                        </div>
+                        <div class="left w-30 tac mh-1" ng-if="tip.tipShow.artificialPhone">
+                        </div>
+                        <div class="left w-70 t-ali-l" ng-if="tip.tipShow.artificialPhone">
+                            <span class="red">*</span><span class="red" ng-bind="words.taxpayer.artificialPhoneErr"></span>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 tac">
+                            <span class="red">*</span><span ng-bind="words.taxpayer.financeName"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <input ng-focus="tip.financeName.focus()" ng-blur="tip.financeName.blur()" type="text" ng-model="user.financeName" placeholder="{{words.taxpayer.finNameLimit}}">
+                        </div>
+                        <div class="left w-30 tac mh-1" ng-if="tip.tipShow.financeName">
+                        </div>
+                        <div class="left w-70 t-ali-l" ng-if="tip.tipShow.financeName">
+                            <span class="red">*</span><span class="red" ng-bind="words.taxpayer.financeNameErr"></span>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 tac">
+                            <span class="red">*</span><span ng-bind="words.taxpayer.financeId"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <input ng-focus="tip.financeId.focus()" ng-blur="tip.financeId.blur()" type="text" ng-model="user.financeId" placeholder="{{words.taxpayer.finIdLimit}}">
+                        </div>
+                        <div class="left w-30 tac mh-1" ng-if="tip.tipShow.financeId">
+                        </div>
+                        <div class="left w-70 t-ali-l" ng-if="tip.tipShow.financeId">
+                            <span class="red">*</span><span class="red" ng-bind="words.taxpayer.financeIdErr"></span>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 tac">
+                            <span class="red">*</span><span ng-bind="words.taxpayer.finance"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <div class="left file-img" ng-click="arrClick('fin')"></div>
+                            <div class="left hide">
+                                <input type="file" name="finance" class="finance file-img" accept="image/*" onchange="angular.element(this).scope().photoCheck(this,'finance');" id="fin">
+                            </div>
+                            <div class="left ml-2 relative photo" ng-repeat="(k,v) in user.finPhotoList" ng-if="user.finPhotoList.length>0"><img src="{{v.path}}" alt="" width="90" height="90"><i class="am-icon-close-1" ng-click="deletePic($event,v,'finance')" style="z-index:1000;color:#000"></i></div>
+                        </div>
+                        <div class="left w-30 tac">
+                            <span>&nbsp;</span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <span ng-bind="words.taxpayer.imageTip"></span>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 tac">
+                            <span class="red">*</span><span ng-bind="words.taxpayer.financePhone"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <input ng-focus="tip.financePhone.focus()" ng-blur="tip.financePhone.blur()" type="text" ng-model="user.financePhone" placeholder="{{words.taxpayer.finPhoneLimit}}">
+                        </div>
+                        <div class="left w-30 tac mh-1" ng-if="tip.tipShow.financePhone">
+                        </div>
+                        <div class="left w-70 t-ali-l" ng-if="tip.tipShow.financePhone">
+                            <span class="red">*</span><span class="red" ng-bind="words.taxpayer.financePhoneErr"></span>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left tac w-100">
+                            <span ng-bind="words.taxpayer.tip"></span>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 tac">
+                            <span ng-bind="words.taxpayer.arrangeName"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <input ng-focus="tip.arrangeName.focus()" ng-blur="tip.arrangeName.blur()" type="text" ng-model="user.arrangeName" placeholder="{{words.taxpayer.arrNameLimit}}">
+                        </div>
+                        <div class="left w-30 tac mh-1" ng-if="tip.tipShow.arrangeName">
+                        </div>
+                        <div class="left w-70 t-ali-l" ng-if="tip.tipShow.arrangeName">
+                            <span class="red">*</span><span class="red" ng-bind="words.taxpayer.arrangeNameErr"></span>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 tac">
+                            <span ng-bind="words.taxpayer.arrangeId"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <input ng-focus="tip.arrangeId.focus()" ng-blur="tip.arrangeId.blur()" type="text" ng-model="user.arrangeId" placeholder="{{words.taxpayer.arrIdLimit}}">
+                        </div>
+                        <div class="left w-30 tac mh-1" ng-if="tip.tipShow.arrangeId">
+                        </div>
+                        <div class="left w-70 t-ali-l" ng-if="tip.tipShow.arrangeId">
+                            <span class="red">*</span><span class="red" ng-bind="words.taxpayer.arrangeIdErr"></span>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 tac">
+                            <span ng-bind="words.taxpayer.arrange"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <div class="left file-img" ng-click="arrClick('arr')"></div>
+                            <div class="left hide">
+                                <input type="file" name="arrange" class="arrange file-img" accept="image/*" onchange="angular.element(this).scope().photoCheck(this,'arrange');" id="arr">
+                            </div>
+                            <div class="left ml-2 relative photo" ng-repeat="(k,v) in user.arrPhotoList" ng-if="user.arrPhotoList.length>0"><img src="{{v.path}}" alt="" width="90" height="90"><i class="am-icon-close-1" ng-click="deletePic($event,v,'arrange')" style="z-index:1000;color:#000"></i></div>
+                        </div>
+                        <div class="left w-30 tac">
+                            <span>&nbsp;</span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <span ng-bind="words.taxpayer.imageTip"></span>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 tac">
+                            <span ng-bind="words.taxpayer.arrangePhone"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <input ng-focus="tip.arrangePhone.focus()" ng-blur="tip.arrangePhone.blur()" type="text" ng-model="user.arrangePhone" placeholder="{{words.taxpayer.arrPhoneLimit}}">
+                        </div>
+                        <div class="left w-30 tac mh-1" ng-if="tip.tipShow.arrangePhone">
+                        </div>
+                        <div class="left w-70 t-ali-l" ng-if="tip.tipShow.arrangePhone">
+                            <span class="red">*</span><span class="red" ng-bind="words.taxpayer.arrangePhoneErr"></span>
+                        </div>
+                    </div>
+                    <div class="w-70 mb-2">
+                        <button class="am-btn am-btn-primary w-30" ng-bind="words.common.save" ng-click="saveUser()" ng-disabled="errTip.disabled"></button>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="pop_box_max" ng-if="operation.delete">
+        <div class="pop_box" id="organizationTip">
+            <h3></h3>
+            <i class="am-icon-close" ng-click="init
+            ()" style="z-index:1000;"></i>
+            <div>
+                <div class="tac" id="user_delete" ng-bind="user_delete.tip">
+                </div>
+                <div class="tac" id="button_container">
+                    <button class="am-btn am-btn-primary mr-rem-2" ng-bind="words.common.confirm" ng-click="confirmBtn()" ng-disabled="errTip.disabled"></button>
+                    <button class="am-btn am-btn-primary" ng-bind="words.common.cancel" ng-click="init()"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pop_box_max" ng-if="importTip.show">
+        <div class="pop_box" id="importTip">
+            <h1 class="t-ali-l"  ng-bind="importTip.msg"></h1>
+            <i class="am-icon-close" ng-click="init
+            ()" style="z-index:1000"></i>
+            <div>
+                <div class="margin_tb12 t-ali-l">
+                    <span ng-bind="words.organization.importTip" style="padding:2rem"></span>
+                </div>
+                <div class="mt-rem-5 tac" id="button_container">
+                    <button class="am-btn am-btn-primary btn_full" ng-bind="words.common.confirm" ng-click="con.continue()" ng-disabled="errTip.disabled"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

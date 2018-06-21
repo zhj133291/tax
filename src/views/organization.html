@@ -1,0 +1,275 @@
+<ol class="am-breadcrumb">
+    <span ng-bind="words.current"></span>
+    <li><a ui-sref='home.homeIndex' ng-bind="words.home" ng-click="goIndex()"></a></li>
+    <li class="am-active" ng-bind="words.organization.organization" ng-click="reload($event)"></li>
+</ol>
+<div class="tpl-content-wrapper">
+    <div class="am-g over-hidden">
+        <div class="am-u-lg-4 am-u-md-6" id="orgContainer">
+            <h3 ng-bind="words.organization.ori" class="big-title"></h3>
+            <div style="position:relative;height:700px;overflow: hidden">
+                <div style="width:17px;height:700px;position:absolute;right:0;background: #fff;"></div>
+                <div class="h-700">
+                </div>
+            </div>
+        </div>
+
+        <div class="am-u-lg-8 am-u-md-6 orgRight">
+            <h3 ng-bind="words.organization.detail" class="big-title left"></h3>
+            <button ng-bind="words.organization.importOrg" class="am-btn am-btn-primary right mr-rem-2" ng-click="import('org')"></button>
+            <button ng-bind="words.organization.importTax" class="am-btn am-btn-primary right mr-rem-2" ng-click="import('tax')"></button>
+            <input type="file" id="importOrg" style="display: none" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" onchange="angular.element(this).scope().photoCheck(this,'org')">
+            <input type="file" id="importTax" style="display: none" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" onchange="angular.element(this).scope().photoCheck(this,'tax')">
+            <div style="position:relative;height:700px;margin-top:47px">
+                <div style="width:17px;height:700px;position:absolute;right:0;background: #fff;"></div>
+            <div class="h-700">
+                <div ng-if="noOrg" class="w-100 h-100 tac">
+                    <div ng-bind="words.organization.addOrg" class="w-100 tac rem-3 pt-rem-15 color-777" style="padding-bottom:3rem"></div>
+                    <button class="am-btn am-btn-primary w-25 mt-rem-5" ng-bind="words.organization.addPro" ng-click="addPro()"></button>
+                </div>
+                <div ng-if="operation.addOrg||operation.editOrg" class="w-100 h-100 tac" id="addOrg">
+                    <div class="w-80">
+                        <div class="left w-30 t-ali-l">
+                            <span ng-bind="words.common.theMech"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <span ng-bind="org.pOrgRemark"></span>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 t-ali-l">
+                            <span class="red">*</span><span ng-bind="words.organization.orgCode"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <input type="text" class="w-80" ng-model="org.orgCode" ng-disabled="operation.editOrg" ng-focus="addOrEditOrgVili.orgCode.focus()" ng-blur="addOrEditOrgVili.orgCode.blur()" placeholder="{{words.organization.codeLimit}}">
+                        </div>
+                        <div class="left w-30 t-ali-l mh-1" ng-if="addOrEditOrgVili.orgCodeErr">
+                        </div>
+                        <div class="left w-70 t-ali-l" ng-if="addOrEditOrgVili.orgCodeErr">
+                            <span class="red">*</span><span class="red" ng-bind="words.organization.codeLimit"></span>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 t-ali-l">
+                            <span class="red">*</span><span ng-bind="words.organization.name"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <input type="text" class="w-80" ng-model="org.orgName" ng-focus="addOrEditOrgVili.orgName.focus()" ng-blur="addOrEditOrgVili.orgName.blur()" placeholder="{{words.organization.nameLimit}}">
+                        </div>
+                        <div class="left w-30 t-ali-l mh-1" ng-if="addOrEditOrgVili.orgNameErr">
+                        </div>
+                        <div class="left w-70 t-ali-l" ng-if="addOrEditOrgVili.orgNameErr">
+                            <span class="red">*</span><span class="red" ng-bind="words.organization.nameLimit"></span>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 t-ali-l">
+                            <span class="red">*</span><span ng-bind="words.organization.remark"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <input type="text" class="w-80" ng-model="org.orgRemark" ng-focus="addOrEditOrgVili.orgRemark.focus()" ng-blur="addOrEditOrgVili.orgRemark.blur()" placeholder="{{words.organization.remarkLimit}}">
+                        </div>
+                        <div class="left w-30 t-ali-l mh-1" ng-if="addOrEditOrgVili.orgRemarkErr">
+                        </div>
+                        <div class="left w-70 t-ali-l" ng-if="addOrEditOrgVili.orgRemarkErr">
+                            <span class="red">*</span><span class="red" ng-bind="words.organization.remarkLimit"></span>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 t-ali-l">
+                            <span class="red">*</span><span ng-bind="words.organization.level"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <select name="" id="level" ng-disabled="operation.editOrg">
+                                <option value="{{k}}" ng-repeat="(k,v) in orgLevel" ng-selected="org.orgLevel==k">{{v}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <button class="am-btn am-btn-primary w-30" ng-bind="words.common.confirm" ng-click="addOrg()" ng-disabled="errTip.disabled"></button>
+                    </div>
+                </div>
+                <div ng-if="operation.editUser||operation.addUser" class="w-100 h-100 tac" id="userInfo">
+                    <div class="w-80">
+                        <div class="left w-30 tac">
+                            <span class="red">*</span><span ng-bind="words.common.theMech"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <span ng-bind="user.orgName"></span>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 tac">
+                            <span class="red">*</span><span ng-bind="words.infoMaint.userName"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <input type="text" ng-model="user.name" placeholder="{{words.infoMaint.nameLimit}}" ng-blur="vilidate.name.blur()" ng-focus="vilidate.name.focus()">
+                        </div>
+                        <div class="left w-30 tac mh-1" ng-if="vilidate.tipShow.name">
+                        </div>
+                        <div class="left w-70 t-ali-l" ng-if="vilidate.tipShow.name">
+                            <span class="red" ng-bind="words.infoMaint.nameLengthLimit"></span>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 tac">
+                            <span class="red">*</span><span ng-bind="words.infoMaint.sex"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <label for="male" style="padding-right:5rem"><input name="sex" type="radio" ng-value="1" ng-model="user.sex" id="male">男</label>
+                            <label for="female"><input name="sex" type="radio" ng-value="0" ng-model="user.sex" id="female">女</label>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 tac">
+                            <span class="red">*</span><span ng-bind="words.infoMaint.code"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <input type="text" ng-model="user.executorCode" placeholder="{{words.infoMaint.taxCodeLimit}}" ng-blur="vilidate.executorCode.blur()" ng-focus="vilidate.executorCode.focus()" ng-disabled="operation.editUser">
+                        </div>
+                        <div class="left w-30 tac mh-1" ng-if="vilidate.tipShow.executorCode">
+                        </div>
+                        <div class="left w-70 t-ali-l" ng-if="vilidate.tipShow.executorCode">
+                            <span class="red" ng-bind="words.infoMaint.codeLengthLimit"></span>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 tac">
+                            <span class="red">*</span><span ng-bind="words.infoMaint.loginName"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <input type="text" ng-model="user.loginName" placeholder="{{words.infoMaint.loginNameLimit}}" ng-blur="vilidate.loginName.blur()" ng-focus="vilidate.loginName.focus()">
+                        </div>
+                        <div class="left w-30 tac mh-1" ng-if="vilidate.tipShow.loginName">
+                        </div>
+                        <div class="left w-70 t-ali-l" ng-if="vilidate.tipShow.loginName">
+                            <span class="red" ng-bind="words.infoMaint.loginNameLengthLimit"></span>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 tac">
+                            <span class="red">*</span><span ng-bind="words.infoMaint.pwd"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <input type="passWord" ng-model="user.loginPwd" placeholder="{{words.infoMaint.pwdLimit}}" ng-disabled="resetBtn.show" ng-blur="vilidate.pwd.blur()" ng-focus="vilidate.pwd.focus()">
+                        </div>
+                        <div class="left w-30 tac mh-1" ng-if="vilidate.tipShow.pwd">
+                        </div>
+                        <div class="left w-70 t-ali-l" ng-if="vilidate.tipShow.pwd">
+                            <span class="red" ng-bind="words.infoMaint.loginPwdLengthLimit"></span>
+                        </div>
+                        <div class="w-100 pt-2 pl-30 t-ali-l" ng-if="resetBtn.show">
+                            <button  ng-bind="words.infoMaint.resetPwd" class="am-btn am-btn-primary w-30" ng-click="resetBtn.resetPwd()"></button>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 tac">
+                            <span class="red">*</span><span ng-bind="words.infoMaint.freez"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <label for="no" style="padding-right:5rem"><input name="freez" type="radio" ng-value="0" ng-model="user.freezed" id="no">否</label>
+                            <label for="yes"><input name="freez" type="radio" ng-value="1" ng-model="user.freezed" id="yes">是</label>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 tac">
+                            <span class="red">*</span><span ng-bind="words.infoMaint.roleCode"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <select name="role" id="roleCode">
+                                <option value="">请选择关联角色</option>
+                                <option value="{{v.roleId}}" ng-selected="user.roleId==v.roleId" ng-repeat="(k,v) in role">{{v.roleName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <div class="left w-30 tac">
+                            <span class="red">*</span><span ng-bind="words.organization.dataAuthority"></span>
+                        </div>
+                        <div class="left w-70 t-ali-l">
+                            <span ng-click="editPermis()" id="editPermis">修改</span>
+                        </div>
+                    </div>
+                    <div class="w-80">
+                        <button class="am-btn am-btn-primary w-30" ng-bind="words.common.save" ng-click="saveUser()" ng-disabled="errTip.disabled"></button>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <!--删除-->
+    <div class="pop_box_max" ng-if="operation.deleteOrg||operation.deleteUser">
+        <div class="pop_box" id="organizationTip">
+            <h3></h3>
+            <i class="am-icon-close" ng-click="init
+            ()" style="z-index:1000;"></i>
+            <div>
+                <div class="margin_tb12 tac" id="org_op">
+                </div>
+                <div class="mt-rem-5 tac" id="button_container">
+                    <button class="am-btn am-btn-primary mr-rem-2" ng-bind="words.common.confirm" ng-click="deleteConfirm()" ng-disabled="errTip.disabled"></button>
+                    <button class="am-btn am-btn-primary" ng-bind="words.common.cancel" ng-click="init()"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pop_box_max hide" id="permisContainer">
+        <div class="pop_box">
+            <h1 class="t-ali-l" ng-bind="words.organization.dataAuthority"></h1>
+            <i class="am-icon-close" ng-click="closePermis
+            ()" style="z-index:1000;"></i>
+            <div class="tac">
+                <div style="height:280px;position: relative">
+                    <div style="width:17px;height:280px;position: absolute;right:0;background:#fff"></div>
+                    <div class="t-ali-l h-280 scroll-y" id="permisList">
+                        <b class="am-icon-plus-square-o" ng-click="permisToggle($event)"></b><input ng-click="checkboxClick($event)" type="checkbox" value="{{orgList.orgCode}}"><span ng-bind="orgList.orgRemark"></span>
+                        <ul ng-if="orgList.childOrg.length">
+                            <li ng-repeat="(k,v) in orgList.childOrg">
+                                <b class="am-icon-plus-square-o" ng-click="permisToggle($event)"></b><input ng-click="checkboxClick($event)" type="checkbox" value="{{v.orgCode}}"><span ng-bind="v.orgRemark"></span>
+                                <ul ng-if="v.childOrg.length">
+                                    <li ng-repeat="(k1,v1) in v.childOrg">
+                                        <b class="am-icon-plus-square-o" ng-click="permisToggle($event)"></b><input ng-click="checkboxClick($event)" type="checkbox" value="{{v1.orgCode}}"><span ng-bind="v1.orgRemark"></span>
+                                        <ul ng-if="v1.childOrg.length">
+                                            <li ng-repeat="(k2,v2) in v1.childOrg">
+                                                <b class="am-icon-plus-square-o" ng-click="permisToggle($event)"></b><input ng-click="checkboxClick($event)" type="checkbox" value="{{v2.orgCode}}"><span ng-bind="v2.orgRemark"></span>
+                                                <ul ng-if="v2.childOrg.length">
+                                                    <li ng-repeat="(k3,v3) in v2.childOrg">
+                                                        <b class="am-icon-plus-square-o" ng-click="permisToggle($event)"></b><input ng-click="checkboxClick($event)" type="checkbox" value="{{v3.orgCode}}"><span ng-bind="v3.orgRemark"></span>
+                                                        <ul ng-if="v3.childOrg.length">
+                                                            <li ng-repeat="(k4,v4) in v3.childOrg">
+                                                                <b class="am-icon-plus-square-o" ng-click="permisToggle($event)"></b><input ng-click="checkboxClick($event)" type="checkbox" value="{{v4.orgCode}}"><span ng-bind="v4.orgRemark"></span>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="margin_tb12 tac" id="permisBtn">
+                    <button class="am-btn am-btn-primary btn_full" ng-bind="words.common.confirm" ng-click="savePermis()"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pop_box_max" ng-if="importTip.show || importTip.show_1">
+        <div class="pop_box" id="importTip">
+            <h1 class="t-ali-l"  ng-bind="importTip.msg"></h1>
+            <i class="am-icon-close" ng-click="init
+            ()" style="z-index:1000"></i>
+            <div>
+                <div class="margin_tb12 t-ali-l">
+                    <span ng-bind="words.organization.importTip" style="padding:2rem"></span>
+                </div>
+                <div class="mt-rem-5 tac" id="button_container">
+                    <button class="am-btn am-btn-primary btn_full" ng-bind="words.common.confirm" ng-click="continue()" ng-disabled="errTip.disabled"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
